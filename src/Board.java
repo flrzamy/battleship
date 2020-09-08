@@ -1,3 +1,6 @@
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class Board {
     char[][] board = new char[8][8];
 
@@ -22,6 +25,17 @@ public class Board {
     }
 
     private boolean isValidPosition(char ship, String index, String direction) {
+        if (!(direction.equalsIgnoreCase("h") || direction.equalsIgnoreCase("v"))) {
+            return false;
+        }
+
+        String indexPattern = "^[a-gA-G][1-8]$";
+        Pattern r = Pattern.compile(indexPattern);
+        Matcher m = r.matcher(index);
+        if (!m.find()) {
+            return false;
+        }
+
         return true;
     }
 
