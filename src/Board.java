@@ -24,7 +24,7 @@ public class Board {
         System.out.println();
     }
 
-    private boolean isValidPosition(char ship, String index, String direction) {
+    private boolean isValidPosition(Ship ship, String index, String direction) {
         if (!(direction.equalsIgnoreCase("h") || direction.equalsIgnoreCase("v"))) {
             return false;
         }
@@ -36,13 +36,34 @@ public class Board {
             return false;
         }
 
+        if (direction.equalsIgnoreCase("h")) {
+            if (index.toLowerCase().charAt(0) - 'a' + ship.size > 8) {
+                return false;
+            }
+        }else if (direction.equalsIgnoreCase("v")) {
+            if (index.charAt(1) - '0' + ship.size > 9) {
+                return false;
+            }
+        }
+
         return true;
     }
 
-    boolean placeShip(char ship, String index, String direction) {
+    boolean placeShip(Ship ship, String index, String direction) {
         if (!isValidPosition(ship, index, direction)) {
             return false;
         }
+
+        if (direction.equalsIgnoreCase("h")) {
+            for (int i=0; i<ship.size; i++) {
+                this.board[index.charAt(1)-'1'][(index.toLowerCase().charAt(0)-'a') + i] = ship.name.charAt(0);
+            }
+        }else if (direction.equalsIgnoreCase("v")) {
+            for (int i=0; i<ship.size; i++) {
+                this.board[index.charAt(1)-'1'+i][(index.toLowerCase().charAt(0)-'a')] = ship.name.charAt(0);
+            }
+        }
+
         return true;
     }
 }
