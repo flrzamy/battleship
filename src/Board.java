@@ -40,9 +40,19 @@ public class Board {
             if (index.toLowerCase().charAt(0) - 'a' + ship.size > 8) {
                 return false;
             }
+            for (int i = 0; i < ship.size; i++) {
+                if (this.board[index.charAt(1) - '1'][(index.toLowerCase().charAt(0) - 'a') + i] != ' ') {
+                    return false;
+                }
+            }
         }else if (direction.equalsIgnoreCase("v")) {
             if (index.charAt(1) - '0' + ship.size > 9) {
                 return false;
+            }
+            for (int i = 0; i < ship.size; i++) {
+                if (this.board[index.charAt(1) - '1' + i][(index.toLowerCase().charAt(0) - 'a')] != ' ') {
+                    return false;
+                }
             }
         }
 
@@ -55,12 +65,12 @@ public class Board {
         }
 
         if (direction.equalsIgnoreCase("h")) {
-            for (int i=0; i<ship.size; i++) {
-                this.board[index.charAt(1)-'1'][(index.toLowerCase().charAt(0)-'a') + i] = ship.name.charAt(0);
+            for (int i = 0; i < ship.size; i++) {
+                this.board[index.charAt(1) - '1'][(index.toLowerCase().charAt(0) - 'a') + i] = ship.name.charAt(0);
             }
         }else if (direction.equalsIgnoreCase("v")) {
-            for (int i=0; i<ship.size; i++) {
-                this.board[index.charAt(1)-'1'+i][(index.toLowerCase().charAt(0)-'a')] = ship.name.charAt(0);
+            for (int i = 0; i < ship.size; i++) {
+                this.board[index.charAt(1) - '1' + i][(index.toLowerCase().charAt(0) - 'a')] = ship.name.charAt(0);
             }
         }
 
