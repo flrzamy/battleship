@@ -32,11 +32,11 @@ public class Battleship {
                     System.out.print("[H/V]");
                     Scanner scanner = new Scanner(System.in);
                     String direction = scanner.next();
-                    System.out.println("\nOn Which square would you like to place the head of your "+ship.size+"?");
+                    System.out.println("\nOn Which square would you like to place the head of your "+ship.name+"?");
                     myBoard.printBoard();
                     System.out.print("[A1-H8]:");
                     String index = scanner.next();
-                    if (!myBoard.placeShip(ship.name.charAt(0),index,direction)) {
+                    if (!myBoard.placeShip(ship,index,direction)) {
                         System.out.println("Invalid position. Please try again.\n");
                     } else {
                         placed = true;

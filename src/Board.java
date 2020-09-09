@@ -1,3 +1,6 @@
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class Board {
     char[][] board = new char[8][8];
 
@@ -21,14 +24,56 @@ public class Board {
         System.out.println();
     }
 
-    private boolean isValidPosition(char ship, String index, String direction) {
+    private boolean isValidPosition(Ship ship, String index, String direction) {
+        if (!(direction.equalsIgnoreCase("h") || direction.equalsIgnoreCase("v"))) {
+            return false;
+        }
+
+        String indexPattern = "^[a-gA-G][1-8]$";
+        Pattern r = Pattern.compile(indexPattern);
+        Matcher m = r.matcher(index);
+        if (!m.find()) {
+            return false;
+        }
+
+        if (direction.equalsIgnoreCase("h")) {
+            if (index.toLowerCase().charAt(0) - 'a' + ship.size > 8) {
+                return false;
+            }
+            for (int i = 0; i < ship.size; i++) {
+                if (this.board[index.charAt(1) - '1'][(index.toLowerCase().charAt(0) - 'a') + i] != ' ') {
+                    return false;
+                }
+            }
+        }else if (direction.equalsIgnoreCase("v")) {
+            if (index.charAt(1) - '0' + ship.size > 9) {
+                return false;
+            }
+            for (int i = 0; i < ship.size; i++) {
+                if (this.board[index.charAt(1) - '1' + i][(index.toLowerCase().charAt(0) - 'a')] != ' ') {
+                    return false;
+                }
+            }
+        }
+
         return true;
     }
 
-    boolean placeShip(char ship, String index, String direction) {
+    boolean placeShip(Ship ship, String index, String direction) {
         if (!isValidPosition(ship, index, direction)) {
             return false;
         }
+
+        if (direction.equalsIgnoreCase("h")) {
+            for (int i = 0; i < ship.size; i++) {
+                this.board[index.charAt(1) - '1'][(index.toLowerCase().charAt(0) - 'a') + i] = ship.name.charAt(0);
+            }
+        }else if (direction.equalsIgnoreCase("v")) {
+            for (int i = 0; i < ship.size; i++) {
+                this.board[index.charAt(1) - '1' + i][(index.toLowerCase().charAt(0) - 'a')] = ship.name.charAt(0);
+            }
+        }
+
         return true;
     }
 }
