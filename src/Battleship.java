@@ -5,8 +5,14 @@ public class Battleship {
 
     public void start() {
         //Initialization
-        Board myBoard = new Board();
-        myBoard.initializeBoard();
+        Board[] myBoards = new Board[2];
+        Board[] enemyBoards = new Board[2];
+        for (int i=0; i<1; i++) {
+            myBoards[i] = new Board();
+            enemyBoards[i] = new Board();
+            myBoards[i].initializeBoard();
+            enemyBoards[i].initializeBoard();
+        }
         Ship[] ships  = new Ship[5];
         ships[0] = new Ship("Carrier",5);
         ships[1] = new Ship("Battleship",4);
@@ -24,19 +30,20 @@ public class Battleship {
         int numPlaced = 0;
         Ship ship = ships[0];
         int playerPlaced = 0;
+        Board board= myBoards[0];
+        Scanner scanner = new Scanner(System.in);
         while (playerPlaced<2) {
             while (numPlaced<5) {
                 while (!placed) {
                     System.out.println("Now place your "+ship.name+", which is of size "+ship.size+".");
+                    board.printBoard();
                     System.out.println("Would you like to place your "+ship.name+" horizontally(H) or vertically(V)?");
                     System.out.print("[H/V]");
-                    Scanner scanner = new Scanner(System.in);
                     String direction = scanner.next();
                     System.out.println("\nOn Which square would you like to place the head of your "+ship.name+"?");
-                    myBoard.printBoard();
                     System.out.print("[A1-H8]:");
                     String index = scanner.next();
-                    if (!myBoard.placeShip(ship,index,direction)) {
+                    if (!board.placeShip(ship,index,direction)) {
                         System.out.println("Invalid position. Please try again.\n");
                     } else {
                         placed = true;
@@ -55,12 +62,25 @@ public class Battleship {
                 System.out.println("===========================================================================================");
                 numPlaced = 0;
                 ship = ships[0];
+                board = enemyBoards[0];
             } else {
                 System.out.println("Now you have both placed your ships. It's time to start the game!");
                 System.out.println("===========================================================================================");
                 break;
             }
         }
+
+        int player = 1;
+        while (true) {
+            System.out.println("It's time for player "+player+" to hit! Where would you like to target?");
+            System.out.print("[A1-H8]:");
+            String index = scanner.next();
+
+
+
+        }
+
+
 
 
 
