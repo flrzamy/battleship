@@ -66,11 +66,22 @@ public class Board {
 
         if (direction.equalsIgnoreCase("h")) {
             for (int i = 0; i < ship.size; i++) {
-                this.board[index.charAt(1) - '1'][(index.toLowerCase().charAt(0) - 'a') + i] = ship.name.charAt(0);
+                if (i == 0) {
+                    this.board[index.charAt(1) - '1'][(index.toLowerCase().charAt(0) - 'a') + i] = '<';
+                }else if(i == ship.size-1) {
+                    this.board[index.charAt(1) - '1'][(index.toLowerCase().charAt(0) - 'a') + i] = '>';
+                }else {
+                    this.board[index.charAt(1) - '1'][(index.toLowerCase().charAt(0) - 'a') + i] = '+';
+                }
             }
         }else if (direction.equalsIgnoreCase("v")) {
             for (int i = 0; i < ship.size; i++) {
-                this.board[index.charAt(1) - '1' + i][(index.toLowerCase().charAt(0) - 'a')] = ship.name.charAt(0);
+                if (i == 0) {
+                    this.board[index.charAt(1) - '1' + i][(index.toLowerCase().charAt(0) - 'a')] = '^';
+                }else if(i == ship.size-1) {
+                    this.board[index.charAt(1) - '1' + i][(index.toLowerCase().charAt(0) - 'a')] = 'v';
+                }else {
+                    this.board[index.charAt(1) - '1' + i][(index.toLowerCase().charAt(0) - 'a')] = '+';                }
             }
         }
 
