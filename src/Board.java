@@ -25,33 +25,46 @@ public class Board {
         System.out.println();
     }
 
-    private boolean isValidPosition(Ship ship, String index, String direction) {
-        if (!(direction.equalsIgnoreCase("h") || direction.equalsIgnoreCase("v"))) {
-            return false;
-        }
-
-        String indexPattern = "^[a-gA-G][1-8]$";
+    private boolean isValidIndex(String index) {
+        String indexPattern = "^[a-hA-H][1-8]$";
         Pattern r = Pattern.compile(indexPattern);
         Matcher m = r.matcher(index);
         if (!m.find()) {
             return false;
         }
+        return true;
+    }
+
+    private boolean isValidPosition(Ship ship, String index, String direction) {
+        if (!(direction.equalsIgnoreCase("h") || direction.equalsIgnoreCase("v"))) {
+            System.out.println("Wrong direction");
+            return false;
+        }
+
+        if (!isValidIndex(index)) {
+            System.out.println("Wrong index input");
+            return false;
+        }
 
         if (direction.equalsIgnoreCase("h")) {
             if (index.toLowerCase().charAt(0) - 'a' + ship.size > 8) {
+                System.out.println("Out of range");
                 return false;
             }
             for (int i = 0; i < ship.size; i++) {
                 if (this.board[index.charAt(1) - '1'][(index.toLowerCase().charAt(0) - 'a') + i] != ' ') {
+                    System.out.println("Conflict");
                     return false;
                 }
             }
         }else if (direction.equalsIgnoreCase("v")) {
-            if (index.charAt(1) - '1' + ship.size > 8) {
+            if (index.charAt(1) - '0' + ship.size > 9) {
+                System.out.println("Out of range");
                 return false;
             }
             for (int i = 0; i < ship.size; i++) {
                 if (this.board[index.charAt(1) - '1' + i][(index.toLowerCase().charAt(0) - 'a')] != ' ') {
+                    System.out.println("Conflict");
                     return false;
                 }
             }
@@ -102,6 +115,20 @@ public class Board {
             return 1;
         }else {
             return 2;
+        }
+    }
+
+    int checkHistory(String index) {
+        if (!isValidIndex(index)) {
+            return 2;
+        }
+
+        int index_r = index.charAt(1) - '1';
+        int index_c = (index.toLowerCase().charAt(0) - 'a');
+        if (this.board[index_r][index_c] != ' ') {
+            return 1;
+        }else {
+            return 0;
         }
     }
 

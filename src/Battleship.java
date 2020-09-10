@@ -7,7 +7,7 @@ public class Battleship {
         //Initialization
         Board[] myBoards = new Board[2];
         Board[] enemyBoards = new Board[2];
-        for (int i=0; i<1; i++) {
+        for (int i=0; i<2; i++) {
             myBoards[i] = new Board();
             enemyBoards[i] = new Board();
             myBoards[i].initializeBoard();
@@ -89,14 +89,25 @@ public class Battleship {
             System.out.print("[A1-H8]:");
             String index = scanner.next();
 
+            if (markBoard.checkHistory(index) == 2) {
+                System.out.println("Invalid position, try again");
+                continue;
+            }else if (markBoard.checkHistory(index) == 1) {
+                System.out.println("You have hit the position before, try another");
+                continue;
+            }
+
             if (hitBoard.checkHit(index) == 1) {
-                System.out.println("Hit!!!!");
+                System.out.println("Hit!!!!\n");
                 markBoard.markBoard(index, true);
             }else if (hitBoard.checkHit(index) == 2){
-                System.out.println("Miss!!!!");
+                System.out.println("Miss!!!!\n");
                 markBoard.markBoard(index, false);
             }else {
                 System.out.println("Player " + player + " wins!!!!");
+                System.out.println("===========================================================================================");
+                markBoard.markBoard(index, true);
+                markBoard.printBoard();
                 break;
             }
 
