@@ -70,19 +70,41 @@ public class Battleship {
             }
         }
 
+        //Start game play
         int player = 1;
         while (true) {
             System.out.println("It's time for player "+player+" to hit! Where would you like to target?");
+
+            Board hitBoard;
+            Board markBoard;
+            if (player == 1) {
+                hitBoard = enemyBoards[0];
+                markBoard = myBoards[1];
+            }else {
+                hitBoard = myBoards[0];
+                markBoard = enemyBoards[1];
+            }
+            markBoard.printBoard();
+
             System.out.print("[A1-H8]:");
             String index = scanner.next();
 
+            if (hitBoard.checkHit(index) == 1) {
+                System.out.println("Hit!!!!");
+                markBoard.markBoard(index, true);
+            }else if (hitBoard.checkHit(index) == 2){
+                System.out.println("Miss!!!!");
+                markBoard.markBoard(index, false);
+            }else {
+                System.out.println("Player " + player + " wins!!!!");
+                break;
+            }
 
-
+            if (player == 1) {
+                player = 2;
+            }else {
+                player = 1;
+            }
         }
-
-
-
-
-
     }
 }

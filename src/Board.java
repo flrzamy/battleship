@@ -3,6 +3,7 @@ import java.util.regex.Pattern;
 
 public class Board {
     char[][] board = new char[8][8];
+    int num_Placed = 0;
 
     void initializeBoard() {
         for (int i=0; i<8; i++) {
@@ -46,7 +47,7 @@ public class Board {
                 }
             }
         }else if (direction.equalsIgnoreCase("v")) {
-            if (index.charAt(1) - '0' + ship.size > 9) {
+            if (index.charAt(1) - '1' + ship.size > 8) {
                 return false;
             }
             for (int i = 0; i < ship.size; i++) {
@@ -66,6 +67,7 @@ public class Board {
 
         if (direction.equalsIgnoreCase("h")) {
             for (int i = 0; i < ship.size; i++) {
+                this.num_Placed++;
                 if (i == 0) {
                     this.board[index.charAt(1) - '1'][(index.toLowerCase().charAt(0) - 'a') + i] = '<';
                 }else if(i == ship.size-1) {
@@ -76,6 +78,7 @@ public class Board {
             }
         }else if (direction.equalsIgnoreCase("v")) {
             for (int i = 0; i < ship.size; i++) {
+                this.num_Placed++;
                 if (i == 0) {
                     this.board[index.charAt(1) - '1' + i][(index.toLowerCase().charAt(0) - 'a')] = '^';
                 }else if(i == ship.size-1) {
@@ -86,5 +89,29 @@ public class Board {
         }
 
         return true;
+    }
+
+    int checkHit(String index) {
+        int index_r = index.charAt(1) - '1';
+        int index_c = (index.toLowerCase().charAt(0) - 'a');
+        if (this.board[index_r][index_c] != ' ') {
+            this.num_Placed--;
+            if (this.num_Placed == 0) {
+                return 0;
+            }
+            return 1;
+        }else {
+            return 2;
+        }
+    }
+
+    void markBoard(String index, boolean hit) {
+        int index_r = index.charAt(1) - '1';
+        int index_c = (index.toLowerCase().charAt(0) - 'a');
+        if (hit) {
+            this.board[index_r][index_c] = 'O';
+        }else {
+            this.board[index_r][index_c] = 'X';
+        }
     }
 }
